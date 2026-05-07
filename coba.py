@@ -11,7 +11,7 @@ app = Flask(__name__)
 # ==========================================
 # PENGATURAN DATABASE & UPLOAD FOTO
 # ==========================================
-# Folder penyimpanan foto sesuai screenshot Anda
+
 UPLOAD_FOLDER = 'static/img'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -37,15 +37,14 @@ def init_db():
 
 init_db()
 
-# ==========================================
-# DATA PEGAWAI (Tetap pakai List Anda dulu)
-# ==========================================
+# DATA PEGAWAI 
+
 PEGAWAI = [
     {
         "nama": "Warjo, S.Tr.", 
         "jabatan": "Kepala Stasiun", 
-        "nip": "19XXXXXXXXXXXXXX", 
-        "email": "warjo@bmkg.go.id", 
+        "nip": "-", 
+        "email": "-", 
         "foto": "img/Namlea1.png" # Berikan foto default jika tidak ada
     },
     {
@@ -73,42 +72,39 @@ PEGAWAI = [
         "nama": "Alfin Situngkir", 
         "jabatan": "Teknisi",
         "nip": "-", 
-        "email": "rizky.pratama@bmkg.go.id", 
+        "email": "-", 
         "foto": "img/Youtube.png"
     },
     {
         "nama": "Yeremia Faldo, S.Tr.", 
         "jabatan": "Forecaster", 
-        "nip": "19951211 201902 1 003", 
-        "email": "rizky.pratama@bmkg.go.id", 
+        "nip": "-", 
+        "email": "-", 
         "foto": "img/Youtube.png"
     },
     {
         "nama": "M. Ishlah Alfasyah, S.Tr. Met.", 
         "jabatan": "Forecaster", 
-        "nip": "19951211 201902 1 003", 
-        "email": "rizky.pratama@bmkg.go.id", 
+        "nip": "-", 
+        "email": "-", 
         "foto": "img/Youtube.png"
     },
     {
         "nama": "Maulana Malik Ibrahim S.Tr. Inst.", 
         "jabatan": "Teknisi", 
-        "nip": "200206242025121002", 
-        "email": "maulana.ibrahim@bmkg.go.id", 
+        "nip": "-", 
+        "email": "-", 
         "foto": "img/foto_maulana.png"
     }
 ]
+# SISTEM CACHE CUACA
 
-# ==========================================
-# SISTEM CACHE CUACA (Logika Anda)
-# ==========================================
 CACHE_CUACA = None
 WAKTU_FETCH_TERAKHIR = 0
 DURASI_CACHE = 1800 
 
-# ==========================================
 # ROUTE UTAMA
-# ==========================================
+
 @app.route("/")
 def home():
     # Mengambil berita terbaru dari database untuk ditampilkan di beranda
@@ -158,9 +154,7 @@ def cuaca_all():
     WAKTU_FETCH_TERAKHIR = time.time()
     return jsonify(hasil)
 
-# ==========================================
 # ROUTE ADMIN (HALAMAN CMS)
-# ==========================================
 @app.route("/admin")
 def admin():
     # Mengambil semua data untuk ditampilkan di tabel admin
@@ -199,7 +193,7 @@ def update_konten():
 def hapus_konten(id):
     db = get_db()
     
-    # 1. Cari nama file foto untuk dihapus sekalian dari folder static/img
+    # 1. file foto untuk dihapus dari folder static/img
     konten = db.execute("SELECT foto FROM konten WHERE id = ?", (id,)).fetchone()
     if konten and konten['foto']:
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], konten['foto'])
