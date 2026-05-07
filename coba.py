@@ -2,15 +2,13 @@ import time
 import requests
 import sqlite3
 import os
-# Tambahan import 'redirect' di sini
 from flask import Flask, render_template, request, jsonify, redirect
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-# ==========================================
 # PENGATURAN DATABASE & UPLOAD FOTO
-# ==========================================
+
 
 UPLOAD_FOLDER = 'static/img'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
